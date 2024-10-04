@@ -56,46 +56,32 @@ print(arrow)
 bg2=image_composite(bg,target,offset=geometry_point(450,80))
 print(bg2)
 
+
 #화살 위치 초기화
-x <- 0
-y <- 220
+x=0
+y=220
 
-initial_velocity <- 50  # 초기 속도 (픽셀/초)
-g <- 9.8  # 중력 가속도 (픽셀/초^2)
-angle <- 45  # 발사 각도 (도 단위)
-angle_rad <- angle * (pi / 180)  # 각도를 라디안으로 변환
-time <- 0  # 초기 시간
-dt <- 0.1  # 시간 간격
+#반복문을 사용하여 화살이 움직이는 애니메이션 설정
+#반복문이 수행될 때마다  x축의 값은 20증가시키고 y축의 값은 -4
 
-while (TRUE) {
-  # x, y 좌표 계산
-  x <- initial_velocity * cos(angle_rad) * time
-  y <- 220 - (initial_velocity * sin(angle_rad) * time - 0.5 * g * time^2)
+while(TRUE){
+  #화살이미지 위치(x,y)
+  position=geometry_point(x,y)
   
-  # y 좌표가 220 아래로 내려가면 다시 220으로 고정
-  if (y > 220) {
-    y <- 220
-  }
+  #이미지 합성:bg2(배경+과녁판) +arrow(화살)
+  img=image_composite(bg2,arrow,offset = position)
   
-  # 이미지 위치 업데이트
-  position <- geometry_point(round(x), round(y))
-  
-  # 이미지 합성: 배경(bg2) + 화살(arrow)
-  img <- image_composite(bg2, arrow, offset = position)
-  
-  # 이미지 출력
   print(img)
   
-  # 시간 지연
-  Sys.sleep(dt)
+  Sys.sleep(0.1)
   
-  # x 좌표가 400을 넘으면 루프 종료
-  if (x >= 400) {
+  #축의 값이 400이 되면 반복문을 빠져나간다
+  if(x==400)
     break
-  }
   
-  # 시간 증가
-  time <- time + dt
+  x=x+20
+  y=y-4
+  
 }
 
 
